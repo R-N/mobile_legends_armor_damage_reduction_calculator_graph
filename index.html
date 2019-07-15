@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<title>W3.CSS Template</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <!-- Custom styles for this template -->
+  <link href="css/styles.css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script type='text/javascript' src='https://canvasjs.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<script src="js/functions.js"></script>
+<style>
+body {font-family: "Lato", sans-serif}
+.mySlides {display: none}
+</style>
+<body>
+
+  <div  id="wrapper">
+  
+	<div id="mySidenav" class="sidenav p-0">
+		<div class="p-3 border-right">
+			<div class="relative clearfix sticky-top">
+			  <h5 class="sidebar-heading vertical-center inline align-middle h-100">Variables </h5>
+			  <h5><a href="javascript:void(0)" class="btn btn-danger closebtn inline" onclick="toggleNavLeft()">&times;</a></h5>
+			</div>
+			<form class="w3-container">
+				<label class="mt-2">Target Dmg Reduction</label>
+				<input class="form-control graph-input calc-input" type="number" id="target-reduction" value="50">
+				
+				<label class="mt-2">Max Armor</label>
+				<input class="form-control graph-input" type="number" id="max-armor" value="300">
+				
+				<label class="mt-2">Armor</label>
+				<input class="form-control graph-input" type="number" id="armor" value="100">
+				
+				<label class="mt-2">Bonus Armor</label>
+				<input class="form-control graph-input" type="number" id="bonus-armor" value="35">
+				
+				<label class="mt-2">Bonus Armor 2</label>
+				<input class="form-control graph-input" type="number" id="bonus-armor-2" value="0">
+
+				<label class="mt-2">Penetration</label>
+				<input class="form-control graph-input" type="number" id="armor-penetration" value="0">
+
+				<label class="mt-2">Percent Penetration</label>
+				<input class="form-control graph-input" type="number" id="armor-percent-penetration" value="0">
+				
+			</form>
+			
+		</div>
+	</div>
+	
+	
+    <!-- Page Content -->
+    <div class=" pushed-sidenav-left pushed-sidenav-right" id="main">
+
+      <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+        <button class="btn btn-primary mr-auto" onclick="toggleNavLeft()">Variables</button>
+
+        <button class="btn btn-primary inline float-right" onclick="toggleNavRight()">Calculations</button>
+		
+      </nav>
+
+      <div class="container-fluid">
+		<div id="armorChart" class = "my-3 chart">
+		</div>
+		
+		<div id="penetrationChart" class = "my-3 chart">
+		</div>
+		<div id="percentPenetrationChart" class = "my-3 chart">
+		</div>
+      </div>
+	  
+		<p class="navbar-light bg-light border-top footer sticky-bottom">Tip: You can click on the curve legends to show or hide that curve</p>
+    </div>
+    <!-- /#page-content-wrapper -->
+	
+	
+	<div id="mySidenavRight" class="sidenav sidenav-right p-0">
+		<div class="p-3 border-right">
+			<div class="relative clearfix sticky-top">
+			  <h5 class="sidebar-heading vertical-center inline align-middle h-100">Calculations </h5>
+			  <h5><a href="javascript:void(0)" class="btn btn-danger closebtn inline" onclick="toggleNavRight()">&times;</a></h5>
+			</div>
+			<form class="container">
+				<label class="mt-3"  data-toggle="tooltip" data-placement="top" title="The first point you clicked, indicated by square-shaped point.">Point 1 (&#9632;)</label>
+				<div class="card">
+					<div class="card-body p-2">
+						<p class="mb-0">x: <span id="point-1-x"></span></p>
+						<p class="mb-0">y: <span id="point-1-y"></span></p>
+					</div>
+				</div>
+				<label class="mt-3" data-toggle="tooltip" data-placement="top" title="The second point you clicked, indicated by cross-shaped point.">Point 2 (&#10006;)</label>
+				<div class="card">
+					<div class="card-body p-2">
+						<p class="mb-0">x: <span id="point-2-x"></span></p>
+						<p class="mb-0">y: <span id="point-2-y"></span></p>
+					</div>
+				</div>
+				<label class="mt-3" data-toggle="tooltip" data-placement="top" title="The difference of point 1 and point 2.">Difference</label>
+				<div class="card">
+					<div class="card-body p-2">
+						<p class="mb-0">x: <span id="point-diff-x"></span></p>
+						<p class="mb-0">y: <span id="point-diff-y"></span></p>
+					</div>
+				</div>
+				
+				<div class="mt-3">
+					<div><input class="form-check-input calc-input" type="checkbox" id="bonus-armor-cb"><label class=""  data-toggle="tooltip" data-placement="top" title="Check this if you wish to take bonus armor into account for calculations below."> Bonus Armor</label></div>
+					<div><input class="form-check-input calc-input" type="checkbox" id="bonus-armor-2-cb"><label class=""  data-toggle="tooltip" data-placement="top" title="Check this if you wish to take bonus armor 2 into account for calculations below."> Bonus Armor 2</label></div>
+					<div><input class="form-check-input calc-input" type="checkbox" id="penetration-cb"><label class=""  data-toggle="tooltip" data-placement="top" title="Check this if you wish to take value penetration into account for calculations below."> Penetration</label></div>
+					<div><input class="form-check-input calc-input" type="checkbox" id="percent-penetration-cb"><label class=""  data-toggle="tooltip" data-placement="top" title="Check this if you wish to take percent penetration into account for calculations below."> Percent Pen</label></div>
+				</div>
+				
+				<div class="mt-3">
+					<label class="" data-toggle="tooltip" data-placement="top" title="The damage reduction you get, taking into account armor and variables you've checked above.">Achieved Dmg Reduction</label>
+					<p class="form-control" id="achieved-reduction"></p>
+					
+					<label class="" data-toggle="tooltip" data-placement="top" title="The total armor you need to achieve target damage reduction, taking into account penetrations you've checked above.">Needed Total Armor</label>
+					<p class="form-control" id="needed-armor"></p>
+					
+					<label class="" data-toggle="tooltip" data-placement="top" title="The value penetration your enemy will need to achieve target damage reduction, taking into account armor and bonuses and percent penetration you've checked above.">Needed Penetration</label>
+					<p class="form-control" id="needed-penetration"></p>
+					
+					<label class="" data-toggle="tooltip" data-placement="top" title="The percent penetration your enemy will need to achieve target damage reduction, taking into account armor and bonuses and value penetration you've checked above.">Needed Percent Penetration</label>
+					<p class="form-control" id="needed-percent-penetration"></p>
+				</div>
+			</form>
+		</div>
+	</div>
+
+  </div>
+  <!-- /#wrapper -->
+
+<script>
+var transitionDuration = 500;
+var lastTransitionTime = 0;
+function toggleNavLeft(){
+	let $obj = $("#mySidenav");
+	$obj.toggleClass("sidenav-closed");
+	let width = $obj.css("width");
+	let closed = $obj.hasClass("sidenav-closed");
+	$("#main").css("padding-left", closed ? 0 : width);
+	$obj.css("margin-left", closed ? ("-"+width) : 0);
+	lastTransitionTime = (new Date()).getTime();
+	setTimeout(rerenderCharts, transitionDuration+10);
+}
+function toggleNavRight(){
+	let $obj = $("#mySidenavRight");
+	$obj.toggleClass("sidenav-closed");
+	let width = $obj.css("width");
+	let closed = $obj.hasClass("sidenav-closed");
+	$("#main").css("padding-right", closed ? 0 : width);
+	$obj.css("margin-right", closed ? ("-"+width) : 0);
+	lastTransitionTime = (new Date()).getTime();
+	setTimeout(rerenderCharts, transitionDuration+10);
+}
+function rerenderCharts(){
+	let now = (new Date()).getTime();
+	if(now - lastTransitionTime >= transitionDuration){
+		lastTransitionTime = now;
+		renderCharts();
+	}
+}
+$(function(){
+
+	$(document).ready(function(){
+	  $('[data-toggle="tooltip"]').tooltip(); 
+	});
+});
+</script>
+
+</body>
+</html>
